@@ -9,7 +9,7 @@ Extension for removing evercookie
 TODO List
 ---------
 
-1. Check (in VM) which version of firefox removes evercookies
+1. Check (in VM) which version of firefox removes evercookies - Onur
 2. Decide on extension type (legacy vs. webex), depending on firefox version
 3. Implement extension that checks if domain name is in the blacklist and deletes evercookie
 4. Build server to receive `eval` requests and crawl them - Onur, Rasoul
@@ -20,4 +20,5 @@ TODO List
 9. Implement BASIC authentication for crawler
 10. Prepare slideshow
 11. Prepare video
-11. Write report
+12. Prepare website
+13. Write report
