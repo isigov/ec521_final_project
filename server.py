@@ -1,6 +1,20 @@
 #!/usr/bin/env python
 """
-Usage::
+*If eval request received:
+Puts received URL bases to csv file and initiates crawler. Updates blacklist according to results
+*If update request received:
+Sends the blacklist to specified IP
+
+TODO:
+-loading a list of blacklisted url bases
+-starting crawler
+-getting crawl results back
+-updating blacklist
+-sending (compressed?) blacklist to soecified address/port 
+-handling 2+ consecutive requests from extension, csv is reset otherwise
+-race conditions concerning csv file and blacklist 
+
+Usage:
     ./server.py [<port>]
 Send a POST request::
     curl -d "request_type&url1&url2..." http://localhost
@@ -8,25 +22,17 @@ Available request types:
     eval: evaluate given URLs
     update: send updated URL list
 """
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-import SocketServer, re
 
-def url_valid(url):
-    regex = r'^(?:(?:https?|ftp)://)(?:\S+(?::\S*)?@)?(?:(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:/[^\s]*)?$'
-    searchObj = re.search( regex, url, re.M|re.I)
-    if searchObj:
-        return True
-    else:
-        return False
+from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+import SocketServer, csv
 
 def url_eval(url_list):
 	num_urls = len(url_list)
-	for i in range(0,num_urls):
-		print(url_list[i])
-		if (url_valid(url_list[i])):
-			print("URL is valid")
-		else:
-			print("Invalid URL")	
+	index_list = list(range(num_urls+1))[1:]
+	
+	with open('/home/ec521/modCrawler/etc/eval_list.csv', 'wb') as eval_csv:
+		wr = csv.writer(eval_csv, quoting=csv.QUOTE_ALL)
+		wr.writerows(zip(index_list, url_list))	
 
 def update_list():
 	return True
