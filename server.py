@@ -29,11 +29,14 @@ import SocketServer, csv
 def url_eval(url_list):
 	num_urls = len(url_list)
 	index_list = list(range(num_urls+1))[1:]
+	for req in (url_list):
+		print(req)
 	
 	with open('/home/ec521/modCrawler/etc/eval_list.csv', 'wb') as eval_csv:
 		wr = csv.writer(eval_csv, quoting=csv.QUOTE_ALL)
 		wr.writerows(zip(index_list, url_list))	
 
+# TODO
 def update_list():
 	return True
 
@@ -61,7 +64,7 @@ class S(BaseHTTPRequestHandler):
 	req_type = post_body_list[0]
        
 	if (req_type == "eval"):
-		print("eval in progress")
+		print("eval requested")
 		url_eval(post_body_list[1:])
 	elif (req_type == "update"):
 		print("sending update...")
