@@ -26,18 +26,25 @@ Available request types:
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import SocketServer, csv
 
+
+#TODO we are never receiving multiple URL's, better handle it here
+#TODO blacklist / whitelist / eval_queue
+#TODO add to eval_queue if not in all above
+
 def url_eval(url_list):
 	num_urls = len(url_list)
 	index_list = list(range(num_urls+1))[1:]
 	for req in (url_list):
 		print(req)
 	
+	# we should be keeping a local black/whitelist file copy here 
+	#load them into url_list so that we don't evaluate twice
 	with open('/home/ec521/modCrawler/etc/eval_list.csv', 'wb') as eval_csv:
 		wr = csv.writer(eval_csv, quoting=csv.QUOTE_ALL)
 		wr.writerows(zip(index_list, url_list))	
 
 # TODO
-def update_list():
+def update_lists():
 	return True
 
 
@@ -68,7 +75,8 @@ class S(BaseHTTPRequestHandler):
 		url_eval(post_body_list[1:])
 	elif (req_type == "update"):
 		print("sending update...")
-		# send list here
+		# send all list here
+		# something wget compatible is better
 	else:
 		print("Invalid request type")
 

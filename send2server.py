@@ -2,14 +2,12 @@
 """
 This script is to be called by crawler every time user visits a website
 Gets the URL typed into search bar and checks if it's valid
-Valid URLs are parsed to get the URL base
-Values are put into POST request and sent to server
+Valid URLs are parsed to get the domain name
+Domain name is put into POST request and sent to server
 
 TODO:
--URL validity check
--urlparse -> get URL base so that it can be POST'ed (server accepts ex.com only)
--load blacklist/whitelist
--add multiple url support
+-blacklist/whitelist check done in extension or here?
+
 """
 
 import re, subprocess, sys, urlparse
@@ -27,19 +25,17 @@ def url_valid(url):
 
 def main(url):
 
-	# we should be keeping a local black/whitelist file copy here 
-	#load them into url_list so that we don't evaluate twice
-
 	extracted = tldextract.extract(url)
 	domain = '{}.{}'.format(extracted.domain, extracted.suffix)
 	server_ip = 'http://localhost'
 	
-	#if url_valid(url) && domain not in blacklist:
-	#TODO: multiple url support
-	post_body = "eval&" + domain
-	curl_args = ['curl', '-d', post_body , server_ip]
-	print("Seding evaluation request: " + domain)
-	process_curl = subprocess.call(curl_args, shell=False)
+	if url_valid(url):
+		post_body = "eval&" + domain
+		curl_args = ['curl', '-d', post_body , server_ip]
+		print("Seding evaluation request: " + domain)
+		process_curl = subprocess.call(curl_args, shell=False)
+	else:
+		print("URL is not valid")
 
 
 if __name__ == "__main__":
