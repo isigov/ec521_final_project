@@ -369,13 +369,13 @@ try{
           self.evercookie_java(name, value);
         }
 
-        self._ec.userData      = self.evercookie_userdata(name, value);
+        // self._ec.userData      = self.evercookie_userdata(name, value);
         self._ec.cookieData    = self.evercookie_cookie(name, value);
         self._ec.localData     = self.evercookie_local_storage(name, value);
-        self._ec.globalData    = self.evercookie_global_storage(name, value);
+        // self._ec.globalData    = self.evercookie_global_storage(name, value);
         self._ec.sessionData   = self.evercookie_session_storage(name, value);
         self._ec.windowData    = self.evercookie_window(name, value);
-        self._ec.fileSystemData = self.evercookie_file_system(name, value);
+        // self._ec.fileSystemData = self.evercookie_file_system(name, value);
 
         if (_ec_history) {
           self._ec.historyData = self.evercookie_history(name, value);
@@ -434,13 +434,17 @@ try{
         // we hit our max wait time or got all our data
         else
         {
-          // get just the piece of data we need from swf
-          self._ec.lsoData = self.getFromStr(name, _global_lso);
-          _global_lso = undefined;
+          if (opts.lso) {
+              // get just the piece of data we need from swf
+              self._ec.lsoData = self.getFromStr(name, _global_lso);
+              _global_lso = undefined;
+          }
 
-          // get just the piece of data we need from silverlight
-          self._ec.slData = self.getFromStr(name, _global_isolated);
-          _global_isolated = undefined;
+          if (opts.silverlight) {
+              // get just the piece of data we need from silverlight
+              self._ec.slData = self.getFromStr(name, _global_isolated);
+              _global_isolated = undefined;
+          }
 
           var tmpec = self._ec,
             candidates = [],
@@ -487,39 +491,39 @@ try{
 
     this.evercookie_file_system = function (name, value) {
 	if (value !== undefined) {
-var config = [{initDataTypes: ['webm'],
-  videoCapabilities: [{contentType: 'video/webm; codecs="vp9"'}],
-  // }];
-  persistentState: 'required'}];
-  window.navigator.requestMediaKeySystemAccess('org.w3.clearkey',
-      config).then(function(keySystemAccess) {
-      var promise = keySystemAccess.createMediaKeys();
-      promise.catch(
-        console.error.bind(console, 'Unable to create MediaKeys')
-      );
-      promise.then(
-        function(createdMediaKeys) {
-	  console.error.bind(console, 'got my keys?');
-	  return value;
+          var config = [{initDataTypes: ['webm'],
+              videoCapabilities: [{contentType: 'video/webm; codecs="vp9"'}],
+              // }];
+              persistentState: 'required'}];
+          window.navigator.requestMediaKeySystemAccess('org.w3.clearkey',
+              config).then(function(keySystemAccess) {
+              var promise = keySystemAccess.createMediaKeys();
+              promise.catch(
+                console.error.bind(console, 'Unable to create MediaKeys')
+              );
+              promise.then(
+                function(createdMediaKeys) {
+                  console.error.bind(console, 'got my keys?');
+                  return value;
+                }
+              ).catch(
+                console.error.bind(console, 'Unable to set MediaKeys')
+              );
+              promise.then(
+                function(createdMediaKeys) {
+                  var initData = new Uint8Array([value]);
+                  var keySession = createdMediaKeys.createSession();
+                  return keySession.generateRequest('webm', initData);
+                }
+              ).catch(
+                console.error.bind(console,
+                  'Unable to create or initialize key session')
+              );
+            });
         }
-      ).catch(
-        console.error.bind(console, 'Unable to set MediaKeys')
-      );
-      promise.then(
-        function(createdMediaKeys) {
-          var initData = new Uint8Array([value]);
-          var keySession = createdMediaKeys.createSession();
-          return keySession.generateRequest('webm', initData);
+        else {
+        //load key
         }
-      ).catch(
-        console.error.bind(console,
-          'Unable to create or initialize key session')
-      );
-    });
-}
-else {
-//load key
-}
     };
 
     this.evercookie_userdata = function (name, value) {

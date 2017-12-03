@@ -65,9 +65,9 @@ var ec = new evercookie({
 	/* Options */
     java: false,
     silverlight: false,
+    history: false,
+    lso: false,
 //    authPath: false,
-//    history: false,
-//    lso: false,
 //    db: false,
 //    idb: false,
 //    pngCookieName: false,
@@ -99,7 +99,7 @@ function getC(dont)
     Click to create an evercookie. Don't worry, the cookie is a
     random number between 1 and 1000, not enough for me to track
     you, just enough to test evercookies.
-    <input type=button value="Click to create an evercookie" onClick="document.getElementById('idtag').innerHTML = '*creating*'; document.getElementById('cookies').innerHTML = ''; ec.set('uid', val); setTimeout(getC, 1000, 1); ">
+    <input type=button value="Click to create an evercookie" onClick="document.getElementById('idtag').innerHTML = '*creating*'; document.getElementById('cookies').innerHTML = ''; ec.set('uid', '' + Math.floor(Math.random()*1000)); setTimeout(getC, 1000, 1); ">
 
     <div id='cookies'></div>
     Now, try deleting this "uid" cookie anywhere possible, then
