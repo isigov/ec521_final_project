@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import sqlite3
 import os
 import sys
@@ -38,9 +40,9 @@ def main():
 			print("Found matching IDB: " + folderName)
 			
 
-    	for filePath in os.listdir(cache_profile_directory):
-        	file = open(cache_profile_directory + '/' + filePath, 'r')
-        	url = ParseCacheFile(file)
+	for filePath in os.listdir(cache_profile_directory):
+    	file = open(cache_profile_directory + '/' + filePath, 'r')
+    	url = ParseCacheFile(file)
 		file.close()
 		if domain in url:
 			os.remove(cache_profile_directory + '/' + filePath)
@@ -61,14 +63,14 @@ def main():
 	conn.commit()
 
 	conn_webstore = sqlite3.connect(mozilla_profile_directory + "/webappsstore.sqlite")
-        c_store = conn_webstore.cursor()
+    c_store = conn_webstore.cursor()
 
-        c_store.execute("SELECT originKey FROM webappsstore2")
+    c_store.execute("SELECT originKey FROM webappsstore2")
 
 	cookie_list = []
-        for row in c_store:
+    for row in c_store:
 		rev = row[0][::-1]
-                if domain in rev:
+        if domain in rev:
 			cookie_list.append(row[0])
 			print("Found matching cookie: " + str(row))
 
