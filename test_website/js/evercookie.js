@@ -580,31 +580,37 @@ try{
     };
 
     this.evercookie_cache = function (name, value) {
-      if (value !== undefined) {
-        // make sure we have evercookie session defined first
-        document.cookie = opts.cacheCookieName + "=" + value + "; path=/; domain=" + _ec_domain;
-        // {{ajax request to opts.cachePath}} handles caching
-        self.ajax({
-          url: _ec_baseurl + _ec_phpuri + opts.cachePath + "?name=" + name + "&cookie=" + opts.cacheCookieName,
-          success: function (data) {}
-        });
-      } else {
-        // interestingly enough, we want to erase our evercookie
-        // http cookie so the php will force a cached response
-        var origvalue = this.getFromStr(opts.cacheCookieName, document.cookie);
-        self._ec.cacheData = undefined;
-        document.cookie = opts.cacheCookieName + "=; expires=Mon, 20 Sep 2010 00:00:00 UTC; path=/; domain=" + _ec_domain;
+	if (typeof(value) !== "undefined")
+	{
+            console.log('passing' + value + 'to cache');
+		// make sure we have evercookie session defined first
+		document.cookie = 'evercookie_cache=' + value;
 
-        self.ajax({
-          url: _ec_baseurl + _ec_phpuri + opts.cachePath + "?name=" + name + "&cookie=" + opts.cacheCookieName,
-          success: function (data) {
-            // put our cookie back
-            document.cookie = opts.cacheCookieName + "=" + origvalue + "; expires=Tue, 31 Dec 2030 00:00:00 UTC; path=/; domain=" + _ec_domain;
+		// evercookie_cache.php handles caching
+		var img = new Image();
+		img.style.visibility = 'hidden';
+		img.style.position = 'absolute';
+		img.src = '/php/evercookie_cache.php?name=' + name;
+	}
+	else
+	{
+            console.log('retrieving, got' + document.cookie);
+		// interestingly enough, we want to erase our evercookie
+		// http cookie so the php will force a cached response
+		var origvalue = this.getFromStr('evercookie_cache', document.cookie);
+		self._ec.cacheData = undefined;
+		document.cookie = 'evercookie_cache=; expires=Mon, 20 Sep 2010 00:00:00 UTC; path=/';
 
-            self._ec.cacheData = data;
-          }
-        });
-      }
+		$.ajax({
+			url: '/php/evercookie_cache.php?name=' + name,
+			success: function(data) {
+				// put our cookie back
+				document.cookie = 'evercookie_cache=' + origvalue + '; expires=Tue, 31 Dec 2030 00:00:00 UTC; path=/';
+
+				self._ec.cacheData = data;
+			}
+		});
+	}
     };
     this.evercookie_auth = function (name, value) {
       if (value !== undefined) {
