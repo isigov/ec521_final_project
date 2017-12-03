@@ -38,9 +38,9 @@ var my_img = "http://www.bu.edu/homepage/feature-images/sub/hoopheal.jpg"
 $(document).ready(function(){
 
 	var total_list = ""
-	
+
 	function reqListener () {
-		
+
 		current_domain = getDomain(window.content.location.href)
 		var patt = new RegExp(current_domain);
 		console.log("Patt: " + patt);
@@ -53,6 +53,7 @@ $(document).ready(function(){
 
 		if (res) {
 			console.log("We have the url");
+                        alert('This website uses evercookie, a malicious tracking mechanism.');
 		} else {
 
 			console.log("We do not have the url");
@@ -79,7 +80,7 @@ $(document).ready(function(){
 
 	console.log('end');
 
-	
+
 });
 
 var reader = new FileReader();
