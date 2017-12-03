@@ -19,15 +19,16 @@ def main():
         print("Usage: " + sys.argv[0] + " [domain]")
         return
     domain = sys.argv[1]
+    ClearFirefox(domain)
 
-    Scan(domain, "/tmp/database.txt")
+#     Scan(domain, "/tmp/database.txt")
 
-def Scan(domain, database):
-    with open(database, "r") as ins:
-        for line in ins:
-            if domain in line:
-                ClearFirefox(domain)
-                break
+# def Scan(domain, database):
+#     with open(database, "r") as ins:
+#         for line in ins:
+#             if domain in line:
+#                 ClearFirefox(domain)
+#                 break
 
 def ClearFirefox(domain):
     home_directory = os.path.expanduser("~")
