@@ -58,6 +58,30 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
         self.wfile.write("<html><body><h1>Go away</h1></body></html>")
 
+
+    def do_GET(self):
+	rootdir = '/'
+	try:
+		if self.path.endswith('.txt'):
+
+			f = open(rootdir + self.path) #open requested file
+			print("here")
+			#send code 200 response
+			self.send_response(200)
+
+			#send header first
+			self.send_header('Content-type','text-html')
+			self.end_headers()
+
+			#send file content to client
+			self.wfile.write(f.read())
+			f.close()
+			return
+	
+	except Exception as e:
+		print(e)
+		self.send_error(404, 'file not found')
+
     def do_HEAD(self):
         self._set_headers()
         
