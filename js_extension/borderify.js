@@ -55,44 +55,44 @@ $(document).ready(function(){
 		if (res) {
                     console.log("We have the url");
                     // alert('This website uses evercookie, a malicious tracking mechanism.');
-                    //Remove window name caching
-                    window.name = 'avengers';
-                    //Remvoe indexedDB caching
-                    if (!('indexedDB' in window)) {
-                        indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-                        IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
-                        IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-                    }
+                    ////Remove window name caching
+                    //window.name = 'avengers';
+                    ////Remvoe indexedDB caching
+                    //if (!('indexedDB' in window)) {
+                    //    indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+                    //    IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+                    //    IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+                    //}
 
-                    if (indexedDB) {
-                        var ver = 1;
-                        //FF incognito mode restricts indexedb access
-                        var request = indexedDB.open("idb_evercookie", ver);
-                        // request.onerror = function(e) { ;
-                        // }
+                    //if (indexedDB) {
+                    //    var ver = 1;
+                    //    //FF incognito mode restricts indexedb access
+                    //    var request = indexedDB.open("idb_evercookie", ver);
+                    //    // request.onerror = function(e) { ;
+                    //    // }
 
-                        request.onupgradeneeded = function(event) {
-                            var db = event.target.result;
+                    //    request.onupgradeneeded = function(event) {
+                    //        var db = event.target.result;
 
-                            var store = db.createObjectStore("evercookie", {
-                                keyPath: "name",
-                                unique: false
-                            })
+                    //        var store = db.createObjectStore("evercookie", {
+                    //            keyPath: "name",
+                    //            unique: false
+                    //        })
 
-                        }
+                    //    }
 
-                        request.onsuccess = function(event) {
-                            var idb = event.target.result;
-                            if (idb.objectStoreNames.contains("evercookie")) {
-                                var tx = idb.transaction(["evercookie"], "readwrite");
-                                var objst = tx.objectStore("evercookie");
-                                var qr = objst.put({
-                                    "name": 'uid',
-                                    "value": 'avengers'
-                                })
-                            } idb.close();
-                        }
-                    }
+                    //    request.onsuccess = function(event) {
+                    //        var idb = event.target.result;
+                    //        if (idb.objectStoreNames.contains("evercookie")) {
+                    //            var tx = idb.transaction(["evercookie"], "readwrite");
+                    //            var objst = tx.objectStore("evercookie");
+                    //            var qr = objst.put({
+                    //                "name": 'uid',
+                    //                "value": 'avengers'
+                    //            })
+                    //        } idb.close();
+                    //    }
+                    //}
 		} else {
 
 			console.log("We do not have the url");
