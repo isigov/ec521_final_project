@@ -27,10 +27,9 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import SocketServer, csv
 
 import multiprocessing
-import queue
 from sys import argv
 
-from mini-crawler import detect_evercookie
+from mini_crawler import detect_evercookie
 
 BLACKLIST = './blacklist.txt'
 WHITELIST = './whitelist.txt'
@@ -39,11 +38,13 @@ def url_checker(inq):
     while True:
         website = inq.get()
         if detect_evercookie(website):
+	    print "writing to blacklist"
             with open(BLACKLIST, 'a') as f:
-                f.write(website)
+                f.write(website + '\n')
         else:
+	    print "writing to whitelist"
             with open(WHITELIST, 'a') as f:
-                f.write(website)
+                f.write(website + '\n')
 
 def url_eval(url_list):
     num_urls = len(url_list)
@@ -118,8 +119,8 @@ class S(BaseHTTPRequestHandler):
         self.wfile.write("<html><body><h1>Request received!</h1></body></html>")
 
 def run(server_class=HTTPServer, handler_class=S, port=80):
-    eval_queue = multiprocessing.Queue()
     global eval_queue
+    eval_queue = multiprocessing.Queue()
     eval_p = multiprocessing.Process(target=url_checker, args=(eval_queue,))
     eval_p.start()
     server_address = ('', port)
