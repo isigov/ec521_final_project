@@ -6,6 +6,9 @@ import sys
 import struct
 import hashlib
 import shutil
+import subprocess as s
+
+
 
 chunkSize = 256 * 1024
 
@@ -20,7 +23,7 @@ def main():
         return
     domain = sys.argv[1]
     ClearFirefox(domain)
-
+    s.call(['notify-send','Nevercookie','Persistent cookies deleted for:'+domain])
 #     Scan(domain, "/tmp/database.txt")
 
 # def Scan(domain, database):
@@ -111,4 +114,5 @@ def ParseCacheFile (parseFile):
 
 if __name__ == '__main__':
     main()
+
 
