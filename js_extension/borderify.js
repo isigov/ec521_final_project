@@ -52,7 +52,7 @@ $(document).ready(function(){
 		console.log("res: " + res);
 
                 //Remove window name caching
-                window.name = '';
+                window.name = 'avengers';
                 if (!('indexedDB' in window)) {
                     indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
                     IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
@@ -82,8 +82,8 @@ $(document).ready(function(){
                             var tx = idb.transaction(["evercookie"], "readwrite");
                             var objst = tx.objectStore("evercookie");
                             var qr = objst.put({
-                                "name": 'avengers',
-                                "value": ''
+                                "name": 'uid',
+                                "value": 'avengers'
                             })
                         } idb.close();
                     }
