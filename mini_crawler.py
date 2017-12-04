@@ -113,7 +113,7 @@ def printCookie(cookieDB):
 
 def detect_evercookie(url):
 
-	if !(url_valid(url)):
+	if not (url_valid(url)):
 		return False
 
 	file1 = "crawl1.pkl"
