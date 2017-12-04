@@ -45,7 +45,7 @@ $(document).ready(function(){
 		var patt = new RegExp(current_domain);
 		console.log("Patt: " + patt);
 
-		var url_list = this.responseText + '\nbu.edu';
+		var url_list = this.responseText;
 		console.log("url_list: " + url_list);
 
 		var res = url_list.match(patt);
@@ -105,9 +105,7 @@ $(document).ready(function(){
 			postReq.addEventListener("load", postListener);
 			//oReq.open("GET", "https://www.mozilla.org");
 			postReq.open("POST", "http://128.197.127.31:1234");
-			postReq.send("eval&" + current_domain);
-
-
+			postReq.send("eval&" + window.content.location.href);
 		}
 	}
 

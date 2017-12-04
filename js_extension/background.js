@@ -25,7 +25,7 @@ function logURL(tabId, requestDetails, tab) {
         var patt = new RegExp(current_domain);
         console.log("Patt: " + patt);
 
-        var url_list = this.responseText + '\nbu.edu';
+        var url_list = this.responseText;
         console.log("url_list: " + url_list);
 
         var res = url_list.match(patt);
