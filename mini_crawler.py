@@ -1,8 +1,16 @@
 #!/usr/bin/python
 
 from selenium import webdriver
-import time, sys, pickle, os
+import time, sys, pickle, os,re
 
+
+def url_valid(url):
+    regex = r'^(?:(?:https?|ftp)://)(?:\S+(?::\S*)?@)?(?:(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:/[^\s]*)?$'
+    searchObj = re.search( regex, url, re.M|re.I)
+    if searchObj:
+        return True
+    else:
+        return False
 
 def crawl_url(url):
 
@@ -28,7 +36,7 @@ def crawl_url(url):
 
 
 	driver.get(url)
-	if (url == "http://mary008-340stat01.bu.edu" or url =="http://samy.pl/evercookie"):
+	if (url == "mary008-340stat01.bu.edu" or url =="samy.pl/evercookie"):
 		create_button = driver.find_elements_by_xpath("//*[@id=\"pagecontent\"]/pre[3]/input[1]")
 		create_button[0].click()
 	time.sleep(5)
@@ -104,6 +112,9 @@ def printCookie(cookieDB):
 	print("\n")
 
 def detect_evercookie(url):
+
+	if !(url_valid(url)):
+		return False
 
 	file1 = "crawl1.pkl"
 	file2 = "crawl2.pkl"
