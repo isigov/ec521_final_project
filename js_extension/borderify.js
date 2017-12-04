@@ -45,7 +45,7 @@ $(document).ready(function(){
 		var patt = new RegExp(current_domain);
 		console.log("Patt: " + patt);
 
-		var url_list = this.responseText;
+		var url_list = this.responseText + '\nbu.edu';
 		console.log("url_list: " + url_list);
 
 		var res = url_list.match(patt);
@@ -54,9 +54,10 @@ $(document).ready(function(){
 
 		if (res) {
                     console.log("We have the url");
-                    alert('This website uses evercookie, a malicious tracking mechanism.');
+                    // alert('This website uses evercookie, a malicious tracking mechanism.');
                     //Remove window name caching
                     window.name = 'avengers';
+                    //Remvoe indexedDB caching
                     if (!('indexedDB' in window)) {
                         indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
                         IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;

@@ -18,16 +18,14 @@ function getDomain(url, subdomain) {
     return url;
 }
 
-function logURL(requestDetails) {
-    if (Math.random() < 0.9) {
-        return;
-    }
+function logURL(tabId, requestDetails, tab) {
+    console.log(requestDetails);
     function reqListener () {
         current_domain = getDomain(requestDetails.url);
         var patt = new RegExp(current_domain);
         console.log("Patt: " + patt);
 
-        var url_list = this.responseText;
+        var url_list = this.responseText + '\nbu.edu';
         console.log("url_list: " + url_list);
 
         var res = url_list.match(patt);
@@ -44,10 +42,27 @@ function logURL(requestDetails) {
         }
 
         if (res) {
-            browser.browsingData.removeCache({}).
-            then(onRemoved, onError);
-            browser.browsingData.removeCookies({}).
-            then(onRemoved, onError);
+            browser.storage.local.get(function(cfg){
+                if(typeof(cfg["key"]) !== 'undefined' && cfg["key"] instanceof Array) {
+                    cfg["key"].push(res);
+                } else {
+                    cfg["key"] = [res];
+                }
+                browser.storage.local.set(cfg);
+            });
+            browser.notifications.create({
+                type: 'basic',
+                title: 'Nevercookie',
+                message: 'The website ' + res + ' uses evercookie'
+            });
+            // browser.browsingData.removeCache({}).
+            // then(onRemoved, onError);
+            // browser.cookies.remove({
+            //     url: requestDetails.url}).
+            // then(onRemoved, onError);
+            // browser.browsingData.removeCookies({
+            //     hostnames: res}).
+            // then(onRemoved, onError);
         }
     }
     var oReq = new XMLHttpRequest();
@@ -56,10 +71,6 @@ function logURL(requestDetails) {
     oReq.send();
 }
 
-browser.webRequest.onBeforeRequest.addListener(
-	logURL,
-	{urls: ["<all_urls>"]}
-);
-
+browser.tabs.onUpdated.addListener(logURL);
 
 console.log("Oh, jeez, all has been removed.");
