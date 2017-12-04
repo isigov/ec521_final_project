@@ -21,9 +21,9 @@ def main():
     if len(sys.argv) < 2:
         print("Usage: " + sys.argv[0] + " [domain]")
         return
-    domain = sys.argv[1]
+    domain = sys.argv[1].split(':')[1].split('[')[1].split(']')[0]
     ClearFirefox(domain)
-    s.call(['notify-send','Nevercookie','Persistent cookies deleted for:'+domain])
+    s.call(['notify-send','Nevercookie','Persistent cookies deleted for '+domain])
 #     Scan(domain, "/tmp/database.txt")
 
 # def Scan(domain, database):
