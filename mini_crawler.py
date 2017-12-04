@@ -22,7 +22,7 @@ def crawl_url(url):
 		cookies_dict = {}
 		for cookie in cookies_list:
 			cookies_dict[cookie['name']] = cookie['value']
-		print(cookies_dict)
+		#print(cookies_dict)
 
 		pickle.dump( cookies_list, open(dumpName,"wb"))
 
@@ -122,9 +122,9 @@ def detect_evercookie(url):
 	#for cookie_index in range(0, len(lib3)):
 	#	print(lib3[cookie_index]['name'], lib3[cookie_index]['value'])
 
-	printCookie(lib1)
-	printCookie(lib2)
-	printCookie(lib3)
+	#printCookie(lib1)
+	#printCookie(lib2)
+	#printCookie(lib3)
 			
 	return everCookieFind(lib1,lib2,lib3)
 

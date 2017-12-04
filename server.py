@@ -28,13 +28,13 @@ import SocketServer, csv
 
 import multiprocessing
 from sys import argv
-
 from mini_crawler import detect_evercookie
 
 BLACKLIST = './blacklist.txt'
 WHITELIST = './whitelist.txt'
 
 def url_checker(inq):
+
     while True:
         website = inq.get()
         if detect_evercookie(website):
@@ -76,7 +76,6 @@ class S(BaseHTTPRequestHandler):
 		if self.path.endswith('.txt'):
 
 			f = open(rootdir + self.path) #open requested file
-			print("here")
 			#send code 200 response
 			self.send_response(200)
 
