@@ -36,7 +36,11 @@ WHITELIST = './whitelist.txt'
 def url_checker(inq):
 
     while True:
+        with open(WHITELIST, 'r') as f:
+            whitelist = f.readlines()
         website = inq.get()
+        if website in whitelist:
+            return
         if detect_evercookie(website):
 	    print "writing to blacklist"
             with open(BLACKLIST, 'a') as f:
