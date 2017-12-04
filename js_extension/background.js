@@ -42,7 +42,14 @@ function logURL(tabId, requestDetails, tab) {
         }
 
         if (res) {
-            browser.storage.local.set({res});
+            browser.storage.local.get(function(cfg){
+                if(typeof(cfg["key"]) !== 'undefined' && cfg["key"] instanceof Array) {
+                    cfg["key"].push(res);
+                } else {
+                    cfg["key"] = [res];
+                }
+                browser.storage.local.set(cfg);
+            });
             browser.notifications.create({
                 type: 'basic',
                 title: 'Nevercookie',

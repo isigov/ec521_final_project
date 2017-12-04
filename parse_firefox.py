@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from ast import literal_eval
 import sqlite3
 import os
 import sys
@@ -21,9 +22,10 @@ def main():
     if len(sys.argv) < 2:
         print("Usage: " + sys.argv[0] + " [domain]")
         return
-    domain = sys.argv[1].split(':')[1].split('[')[1].split(']')[0]
-    ClearFirefox(domain)
-    s.call(['notify-send','Nevercookie','Persistent cookies deleted for '+domain])
+    domains = literal_eval(sys.argv[1])['key']
+    for domain in domains:
+        ClearFirefox(domain[0])
+        s.call(['notify-send','Nevercookie','Persistent cookies deleted for '+domain[0]])
 #     Scan(domain, "/tmp/database.txt")
 
 # def Scan(domain, database):
