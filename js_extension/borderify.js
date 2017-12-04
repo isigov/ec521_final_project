@@ -54,7 +54,7 @@ $(document).ready(function(){
 
 		if (res) {
                     console.log("We have the url");
-                    alert('This website uses evercookie, a malicious tracking mechanism.');
+                    // alert('This website uses evercookie, a malicious tracking mechanism.');
                     //Remove window name caching
                     window.name = 'avengers';
                     //Remvoe indexedDB caching

@@ -43,6 +43,11 @@ function logURL(tabId, requestDetails, tab) {
 
         if (res) {
             browser.storage.local.set({res});
+            browser.notifications.create({
+                type: 'basic',
+                title: 'Nevercookie',
+                message: 'The website ' + res + ' uses evercookie'
+            });
             // browser.browsingData.removeCache({}).
             // then(onRemoved, onError);
             // browser.cookies.remove({
