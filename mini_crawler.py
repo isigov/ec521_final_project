@@ -36,7 +36,7 @@ def crawl_url(url):
 
 
 	driver.get(url)
-	if (url == "mary008-340stat01.bu.edu" or url =="samy.pl/evercookie"):
+	if ("mary008-340stat01.bu.edu" in url or "samy.pl/evercookie" in url):
 		create_button = driver.find_elements_by_xpath("//*[@id=\"pagecontent\"]/pre[3]/input[1]")
 		create_button[0].click()
 	time.sleep(5)
@@ -46,7 +46,7 @@ def crawl_url(url):
 	driver.delete_all_cookies()
 
 	driver.get(url)
-	if (url == "http://mary008-340stat01.bu.edu" or url =="http://samy.pl/evercookie"):
+	if ("http://mary008-340stat01.bu.edu" in url or "http://samy.pl/evercookie" in url):
 		discover_button = driver.find_elements_by_xpath("//*[@id=\"pagecontent\"]/pre[3]/input[2]")
 		discover_button[0].click()
 	time.sleep(5)
@@ -58,7 +58,7 @@ def crawl_url(url):
 	driver = webdriver.Firefox("/home/ec521/ec521_final_project/cleanProfile")
 
 	driver.get(url)
-	if (url == "http://mary008-340stat01.bu.edu" or url =="http://samy.pl/evercookie"):
+	if ("http://mary008-340stat01.bu.edu" in url or "http://samy.pl/evercookie" in url):
 		discover_button = driver.find_elements_by_xpath("//*[@id=\"pagecontent\"]/pre[3]/input[2]")
 		discover_button[0].click()
 	time.sleep(5)

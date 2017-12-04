@@ -39,16 +39,15 @@ def url_checker(inq):
         with open(WHITELIST, 'r') as f:
             whitelist = f.readlines()
         website = inq.get()
-        if website  + '\n' in whitelist:
-            return
-        if detect_evercookie(website):
-	    print "writing to blacklist"
-            with open(BLACKLIST, 'a') as f:
-                f.write(website + '\n')
-        else:
-	    print "writing to whitelist"
-            with open(WHITELIST, 'a') as f:
-                f.write(website + '\n')
+        if website  + '\n' not in whitelist:
+		if detect_evercookie(website):
+		    print "writing to blacklist"
+		    with open(BLACKLIST, 'a') as f:
+			f.write(website + '\n')
+		else:
+		    print "writing to whitelist"
+		    with open(WHITELIST, 'a') as f:
+			f.write(website + '\n')
 
 def url_eval(url_list):
     num_urls = len(url_list)
